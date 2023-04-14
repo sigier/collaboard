@@ -1,0 +1,36 @@
+{
+  "name": "collaboard",
+  "version": "1.0.0",
+  "description": "Collaboration tool that enables individuals and teams to manage tasks, projects, and workflows using a visual and intuitive approach",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server/server.js",
+    "server": "nodemon src/server/server.js",
+    "client": "npm start --prefix client",
+    "dev":"concurrently \"npm run server\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sigier/collaboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sigier/collaboard/issues"
+  },
+  "homepage": "https://github.com/sigier/collaboard#readme",
+  "dependencies": {
+    "apollo-server": "^3.12.0",
+    "apollo-server-express": "^3.12.0",
+    "concurrently": "^5.3.0",   
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^7.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "dotenv": "^16.0.3"
+  }
+}
