@@ -17,27 +17,27 @@ const sectionSchema = new Mongoose.Schema({
     },
   });
   
-  class Section {
-    static getSections() {
+  class Segment {
+    static getSegments() {
       return this.find().sort("placement").exec();
     }
   
-    static getSectionById(sectionId) {
+    static getSegmentById(segmentId) {
       return this.findOne({
-        _id: Mongoose.mongo.ObjectID(sectionId),
+        _id: Mongoose.mongo.ObjectID(segmentId),
       }).exec();
     }
   
-    static insertSection(sectionInfo) {
-      const section = this(sectionInfo);
+    static insertSection(segmentInfo) {
+      const segment = this(segmentInfo);
   
-      return section.save();
+      return segment.save();
     }
   
-    static updatePos(sectionId, pos) {
+    static updatePlacement(segmentId, placement) {
       return this.findOneAndUpdate(
         {
-          _id: Mongoose.mongo.ObjectID(sectionId),
+          _id: Mongoose.mongo.ObjectID(segmentId),
         },
         {
           $set: {
@@ -51,6 +51,6 @@ const sectionSchema = new Mongoose.Schema({
     }
   }
   
-  sectionSchema.loadClass(Section);
+  sectionSchema.loadClass(Segment);
   
-  module.exports = Mongoose.model("Section", sectionSchema);
+  module.exports = Mongoose.model("Segment", sectionSchema);
