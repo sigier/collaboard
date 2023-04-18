@@ -1,19 +1,21 @@
 const { gql } = require("apollo-server-express");
+const queryResolvers = require("./Resolvers/Query");
 
-const sectionTypeDefs = gql`
 
-    input insertSectionInput {
+const segmentTypeDefs = gql`
+
+    input insertSegmentInput {
         title: String!
         label: String!
         placement: Int!
     }
 
-    input updateSectionPkacementInput {
-        sectionId: String!
+    input updateSegmentPlacementInput {
+        segmentId: String!
         pos: Int!
     }
 
-    type Section {
+    type Segment {
         id: ID!
         title: String!
         label: String!
@@ -22,9 +24,22 @@ const sectionTypeDefs = gql`
         cards: [Card]
     }
 
+    extend type Query {
+        hello: String
+        fetchSegments: [Segment]
+      }
+
 `;
 
 
+const segmentResolvers = {
+    Query: {
+      ...queryResolvers
+    },
+  };
+
+
 module.exports = {
-    sectionTypeDefs
+    segmentTypeDefs,
+    segmentResolvers
   };

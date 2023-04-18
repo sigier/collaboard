@@ -1,7 +1,7 @@
 const Mongoose = require("mongoose");
 
 
-const sectionSchema = new Mongoose.Schema({
+const segmentSchema = new Mongoose.Schema({
     title: {
       type: String,
       required: true,
@@ -28,7 +28,7 @@ const sectionSchema = new Mongoose.Schema({
       }).exec();
     }
   
-    static insertSection(segmentInfo) {
+    static insertSegment(segmentInfo) {
       const segment = this(segmentInfo);
   
       return segment.save();
@@ -51,6 +51,6 @@ const sectionSchema = new Mongoose.Schema({
     }
   }
   
-  sectionSchema.loadClass(Segment);
+  segmentSchema.loadClass(Segment);
   
-  module.exports = Mongoose.model("Segment", sectionSchema);
+  module.exports = Mongoose.model("Segment", segmentSchema);
