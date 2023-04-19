@@ -1,5 +1,6 @@
 const { gql } = require("apollo-server-express");
 const queryResolvers = require("./Resolvers/Query");
+const mutationResolvers = require("./Resolvers/Mutation")
 
 
 const segmentTypeDefs = gql`
@@ -35,6 +36,9 @@ const segmentTypeDefs = gql`
 const segmentResolvers = {
     Query: {
       ...queryResolvers
+    },
+    Mutation: {
+      ...mutationResolvers,
     },
   };
 
