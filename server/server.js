@@ -6,9 +6,61 @@ const { PubSub } = require("apollo-server");
 const { createServer } = require("http");
 require("dotenv").config();
 
-const typeDefs = gql``;
+const { cardResolvers, cardTypeDefs } = require("./card");
+const { segmentResolvers, segmentTypeDefs } = require("./segment");
+const cardModel = require("./card/model");
+const segmentModel = require("./segment/model");
+const CONSTANTS = require("./constants");
 
-const resolvers = {};
+const typeDefs = gql`
+  type Subscription {
+    segmentAdded: Segment
+    cardAdded: Card
+    onSegmentPlacementChange: Segment
+    onCardPlacementChange: Card
+  }  
+  ${cardTypeDefs}
+  ${segmentTypeDefs}
+`;
+
+const pubsub = new PubSub();
+
+const subscriptionsResolvers = {
+  Subscription: {
+    segmentAdded: {
+      subscribe: () =>
+        pubsub.asyncIterator([CONSTANTS.SEGMENT_ADDED]),
+    },
+    cardAdded: {
+      subscribe: () =>
+        pubsub.asyncIterator([CONSTANTS.CARD_ADDED]),
+    },
+    onSegmentPlacementChange: {
+      subscribe: () =>
+        pubsub.asyncIterator([CONSTANTS.ON_SEGMENT_PLACEMENT_CHANGE]),
+    },
+    onCardPlacementChange: {
+      subscribe: () =>
+        pubsub.asyncIterator([CONSTANTS.ON_CARD_PLACEMENT_CHANGE]),
+    },
+  },
+};
+
+const customResolvers = {
+  Segment: {
+    cards(parent, args, cxt) {
+      return cxt.card.getCardBySegmentId(parent._id);
+    },
+  },
+};
+
+const resolvers = {
+  cardResolvers,
+  segmentResolvers,
+  customResolvers,
+  subscriptionsResolvers
+
+};
 
 const MONGO_LINK = process.env.MONGO_LINK;
 
@@ -23,10 +75,20 @@ mongoose
   )
   .then(() => {
     console.log("mongodb connected now");
+
     const server = new ApolloServer({
       typeDefs,
-      resolvers
+      resolvers,
+      context: () =>(
+        {
+          card: cardModel,
+          segment: segmentModel,
+          publisher: pubsub,
+          CONSTANTS: CONSTANTS
+        }
+      )
     });
+
     const app = express();
     server.applyMiddleware({ app });
     const httpServer = createServer(app);
