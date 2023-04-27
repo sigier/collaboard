@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./App.css";
 import Board from "./components/Board/Board";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
