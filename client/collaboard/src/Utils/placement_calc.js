@@ -1,6 +1,7 @@
 export default function (removedIndex, addedIndex, array) {
     let placement;
     if (addedIndex === array.length - 1) {
+        // 16384 is Atlassian defined constant. It is a subject for discussion
         placement = array[array.length - 1].placement + 16384;
     } else if (addedIndex === 0) {
         placement = array[0].placement / 2;
